@@ -51,7 +51,7 @@ pip install -r requirements.txt
 #DBのURLを取得し、4.に記載の箇所を取得する
 # 5. 下記コマンドを実行。3. 4.のAPIキー等の情報がexportされる 
 source /Users/tomohisaonose/Python/titanicChallenge/env.sh 
-
+# ※APIキーの記載があるため、githubには未登録(ローカル管理)
 ```
 
 ## 基本的な使い方

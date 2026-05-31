@@ -49,6 +49,8 @@ pip install -r requirements.txt
 #Notion側で事前にデータベースを作成する
 #１カラム目はName,2個目はフォルダ
 #DBのURLを取得し、4.に記載の箇所を取得する
+# 5. 下記コマンドを実行。3. 4.のAPIキー等の情報がexportされる 
+source /Users/tomohisaonose/Python/titanicChallenge/env.sh 
 
 ```
 
@@ -80,7 +82,6 @@ python migrate.py --verbose
 
 ## オプション一覧
 
-
 | オプション              | 説明                                      |
 | ------------------ | --------------------------------------- |
 | `--api-key`        | Notion Integration Token (`secret_xxx`) |
@@ -93,7 +94,6 @@ python migrate.py --verbose
 | `--image-dir`      | 画像保存先 (デフォルト: `./migration_images`)     |
 | `--dry-run`        | Notion に書き込まずノート一覧だけ表示                  |
 | `--verbose`        | 詳細ログ                                    |
-
 
 ## Notion データベースの事前設定
 
@@ -125,12 +125,9 @@ Notion の `to_do` ブロックには自動変換されません。
 
 ## トラブルシューティング
 
-
 | エラー                               | 原因と対処                                                               |
 | --------------------------------- | ------------------------------------------------------------------- |
 | `JXA エラー`                         | System Settings > Privacy > Automation で Terminal に Notes アクセス権限を付与 |
 | `Notion API 403`                  | Integration が対象 DB/ページに接続されているか確認                                   |
 | `Notion API 400 validation_error` | `--title-property` の列名を DB に合わせて変更                                  |
 | `画像が見つかりません`                      | 添付ファイルの AppleScript 保存に失敗。手動確認が必要                                   |
-
-

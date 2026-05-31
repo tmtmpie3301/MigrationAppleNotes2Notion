@@ -27,22 +27,29 @@
 ## セットアップ
 
 ```bash
+# 0. githubのMigrationAppleNotes2Notion　をクローンする
+# sourcetreeを使って、user/Python/配下にクローンする
 # 1. 仮想環境を作成 (推奨)
 python3 -m venv .venv
 source .venv/bin/activate
-
+# user/Python/MigrationAppleNotes2Notionにディレクトリ移動し、上記コマンドを実行
 # 2. 依存パッケージをインストール
 pip install -r requirements.txt
 
 # 3. Notion Integration Token を取得
 #    https://www.notion.so/my-integrations で「New integration」を作成し
 #    移行先データベース／ページを「Connections」から接続する
+# サイトから取得。ntn_xxxxxxxxxってやつを取得
 
 # 4. 移行先 Database ID を確認
 #    ブラウザで対象データベースを開き、URL の末尾の英数字部分をコピー
 #    https://www.notion.so/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx?v=...
 #                            ↑ これが Database ID
-#NOTE'
+#NOTE：
+#Notion側で事前にデータベースを作成する
+#１カラム目はName,2個目はフォルダ
+#DBのURLを取得し、4.に記載の箇所を取得する
+
 ```
 
 ## 基本的な使い方

@@ -838,9 +838,13 @@ class Migrator:
         skip: int = 0,
         dry_run: bool = False,
     ) -> None:
+        start_all = time.perf_counter()
+        
         log.info("ノート一覧を取得中...")
+        start_list = time.perf_counter()
         notes = self.exporter.list_notes()
-        log.info(f"合計 {len(notes)} 件のノートが見つかりました")
+        elapsed_list = time.perf_counter() - start_list
+        log.info(f"合計 {len(notes)} 件のノートが見つかりました ({elapsed_list:.2f}秒)")
 
         if folder_filter:
             notes = [n for n in notes if n["folder"] == folder_filter]
@@ -856,13 +860,20 @@ class Migrator:
                 log.info("  [dry-run] スキップ")
                 continue
             try:
+                start_note = time.perf_counter()
                 self.migrate_note(meta)
+                elapsed_note = time.perf_counter() - start_note
                 self._ok.append(meta["name"])
+                log.info(f"  ✓ 完了 ({elapsed_note:.2f}秒)")
             except Exception as e:
                 log.error(f"  移行失敗: {e}")
                 self._fail.append(meta["name"])
 
         self._print_summary()
+        
+        elapsed_all = time.perf_counter() - start_all
+        log.info(f"移行処理合計: {elapsed_all:.2f} 秒")
+
 
     # ── 1ノート移行 ────────────────────────────────────────────────────────────
 
@@ -894,7 +905,7 @@ class Migrator:
 
             # ブロックを再帰的にアップロード (ネスト制限を自動解決)
             self.uploader.upload_blocks(page_id, blocks)
-            log.info(f"  ✓ 完了")
+
 
     # ── 画像解決 ───────────────────────────────────────────────────────────────
 
@@ -980,6 +991,8 @@ class Migrator:
 # ══════════════════════════════════════════════════════════════════════════════
 
 def main() -> None:
+    start_time = time.perf_counter()
+    
     parser = argparse.ArgumentParser(
         description="Apple Notes → Notion 移行スクリプト",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -1053,6 +1066,11 @@ def main() -> None:
         skip          = args.skip,
         dry_run       = args.dry_run,
     )
+    
+    elapsed = time.perf_counter() - start_time
+    log.info(f"┌─ 実行時間 ─────────────────────────────────────────")
+    log.info(f"│ 合計: {elapsed:.2f} 秒 ({int(elapsed//60)}分 {int(elapsed%60)}秒)")
+    log.info(f"└─────────────────────────────────────────────────────")
 
 
 if __name__ == "__main__":

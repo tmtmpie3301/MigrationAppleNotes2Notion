@@ -89,7 +89,8 @@ class AppleNotesExporter:
 
     def list_notes(self) -> list[dict]:
         """全ノードのメタデータ一覧を返す (body は取得しない)。"""
-        raw = self._run_jxa(self._JXA_LIST_NOTES, timeout=600)#ChatGPT曰く、メモ件数が多く、ここでタイムアウトしているとのなので、タイムアウト制御時間を60秒から600秒に変更。＃２０２６/5/10
+        log.info("Apple Notes からノート一覧を取得中... (最大30分かかる場合があります)")
+        raw = self._run_jxa(self._JXA_LIST_NOTES, timeout=3000)  # 3000秒 = 50分に延長
         return json.loads(raw)
 
     def get_note_body(self, note_idx: int) -> str:
